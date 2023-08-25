@@ -27,6 +27,37 @@ This is personal repository non-working Arch install scripts.
 
 ## Notes
 
+- Font setting
+	
+	```sh
+	setfont ter-132n
+	```
+
+- WiFi connection
+	
+	```sh
+	iwctl
+	# In The Shell
+	station wlan0 connect "SSID"
+	
+	# Exit
+	exit
+	```
+
+- Setup Time and date settings
+	
+	```sh
+	timedatectl set-timezone "Asia/Kolkata"
+	timedatectl set-localrtc 1
+	timedatectl set-ntp true
+	```
+	
+	To Check Status:
+	
+	```sh
+	timedatectl status
+	```
+	
 - Normal `ext4` format command
 
 	```sh
