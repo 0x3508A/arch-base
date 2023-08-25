@@ -48,7 +48,7 @@ This is personal repository non-working Arch install scripts.
 	
 	```sh
 	timedatectl set-timezone "Asia/Kolkata"
-	timedatectl set-localrtc 1
+	timedatectl set-local-rtc 1
 	timedatectl set-ntp true
 	```
 	
@@ -108,15 +108,15 @@ This is personal repository non-working Arch install scripts.
 	Intel System:
 
 	```sh
-	pacstrap -K /mnt base linux linux-firmware sof-firmware vim nano \
-		git man-db man-pages texinfo bash-completion intel-ucode
+	pacstrap -K /mnt base linux linux-firmware vim git \
+		bash-completion intel-ucode
 	```
 
 	AMD System:
 
 	```sh
-	pacstrap -K /mnt base linux linux-firmware sof-firmware vim nano \
-		git man-db man-pages texinfo bash-completion amd-ucode
+	pacstrap -K /mnt base linux linux-firmware vim git \
+		bash-completion amd-ucode
 	```
 
 - `genfstab` Command
@@ -139,6 +139,8 @@ This is personal repository non-working Arch install scripts.
 		
 		```sh
 		sudo systemctl disable lightdm
+		# or 
+		sudo systemctl disable lxdm
 		```
 		
 		For KDE:
@@ -159,16 +161,14 @@ This is personal repository non-working Arch install scripts.
 		
 		```sh
 		sudo pacman -D --asexplicit base linux linux-firmware \
-			sof-firmware vim nano git man-db man-pages \
-			texinfo bash-completion intel-ucode
+			vim git bash-completion intel-ucode
 		```
 		
 		For AMD System:
 		
 		```sh
 		sudo pacman -D --asexplicit base linux linux-firmware \
-			sof-firmware vim nano git man-db man-pages \
-			texinfo bash-completion amd-ucode
+			vim git bash-completion amd-ucode
 		```
 	
 	- Remove all Dependencies
