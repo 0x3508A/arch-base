@@ -21,13 +21,15 @@ echo root:password | chpasswd
 # Packages in Stages
 
 pacman -S grub efibootmgr mtools dosfstools os-prober \
+	sof-firmware nano nano-syntax-highlighting \
+	man-db man-pages texinfo \
 	networkmanager network-manager-applet dialog ufw \
 	openssh rsync reflector cups bluez bluez-utils avahi \
 	inetutils dnsutils nfs-utils nss-mdns\
 	base-devel linux-headers ntfs-3g exfatprogs \
 	acpi acpid acpi_call tlp hddtemp smartmontools \
 	xdg-user-dirs xdg-utils gvfs gvfs-smb \
-	inxi terminus-font nano-syntax-highlighting \
+	inxi terminus-font bash-completion \
 	alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack \
 	flatpak
 
