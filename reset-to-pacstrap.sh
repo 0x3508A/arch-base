@@ -12,11 +12,11 @@
 
 # sudo pacman -D --asexplicit base linux linux-firmware \
 #	sof-firmware vim nano git man-db man-pages \
-#	bash-completion intel-ucode
+#	texinfo bash-completion intel-ucode
 
 # sudo pacman -D --asexplicit base linux linux-firmware \
 #	sof-firmware vim nano git man-db man-pages \
-#	bash-completion amd-ucode
+#	texinfo bash-completion amd-ucode
 
 ## Take into Root user as otherwise it would not work
 # su -

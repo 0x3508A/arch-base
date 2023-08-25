@@ -109,14 +109,14 @@ This is personal repository non-working Arch install scripts.
 
 	```sh
 	pacstrap -K /mnt base linux linux-firmware sof-firmware vim nano \
-		git man-db man-pages bash-completion intel-ucode
+		git man-db man-pages texinfo bash-completion intel-ucode
 	```
 
 	AMD System:
 
 	```sh
 	pacstrap -K /mnt base linux linux-firmware sof-firmware vim nano \
-		git man-db man-pages bash-completion amd-ucode
+		git man-db man-pages texinfo bash-completion amd-ucode
 	```
 
 - `genfstab` Command
@@ -160,7 +160,7 @@ This is personal repository non-working Arch install scripts.
 		```sh
 		sudo pacman -D --asexplicit base linux linux-firmware \
 			sof-firmware vim nano git man-db man-pages \
-			bash-completion intel-ucode
+			texinfo bash-completion intel-ucode
 		```
 		
 		For AMD System:
@@ -168,7 +168,7 @@ This is personal repository non-working Arch install scripts.
 		```sh
 		sudo pacman -D --asexplicit base linux linux-firmware \
 			sof-firmware vim nano git man-db man-pages \
-			bash-completion amd-ucode
+			texinfo bash-completion amd-ucode
 		```
 	
 	- Remove all Dependencies
