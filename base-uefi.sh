@@ -65,7 +65,7 @@ systemctl enable acpid
 
 useradd -m user
 echo user:password | chpasswd
-user -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
+usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
 # usermod -aG libvirt user # Only if you need Virtual Machines
 
 echo "user ALL=(ALL) ALL" >> /etc/sudoers.d/user
