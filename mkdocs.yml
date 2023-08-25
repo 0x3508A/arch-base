@@ -1,5 +1,5 @@
-site_name: jugaad-boards
-site_description: jugaad Boards Documentation
+site_name: arch-base
+site_description: Arch Linux Install Scripts
 site_author: Abhijit Bose (0x3508a)
 
 theme:
