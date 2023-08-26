@@ -36,8 +36,10 @@ echo root:password | chpasswd
 
 fi
 
+# Update Pacman
 pacman-key --init
 pacman-key --populate archlinux
+pacman -Syy
 # Packages in Stages
 pacman -S grub mtools dosfstools os-prober \
 	nano nano-syntax-highlighting \
@@ -74,4 +76,4 @@ echo "user ALL=(ALL) ALL" >> /etc/sudoers.d/user
 chmod 440 /etc/sudoers.d/user
 fi
 
-printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m\n"
+printf "\e[1;32mDone! Type exit, umount -R /mnt and reboot.\e[0m\n"
