@@ -67,9 +67,9 @@ if [[ $'\n'${match_lhs} == *$'\n'"TERM "${safe_term}* ]] ; then
 	# Enable colors for ls, etc. Prefer ~/.dir_colors
 	if type -P dircolors >/dev/null ; then
 		if [[ -f ~/.dir_colors ]] ; then
-			eval $(dircolors -b ~/.dir_colors)
+			eval "$(dircolors -b ~/.dir_colors)"
 		elif [[ -f /etc/DIR_COLORS ]] ; then
-			eval $(dircolors -b /etc/DIR_COLORS)
+			eval "$(dircolors -b /etc/DIR_COLORS)"
 		fi
 	fi
 
@@ -111,3 +111,6 @@ unset safe_term match_lhs
 # Try to enable the "Command not found" hook ("pacman -S pkgfile" to install it).
 # See also: https://wiki.archlinux.org/index.php/Bash#The_.22command_not_found.22_hook
 [ -r /usr/share/doc/pkgfile/command-not-found.bash ] && . /usr/share/doc/pkgfile/command-not-found.bash
+
+# Print Linux Name
+uname -a
