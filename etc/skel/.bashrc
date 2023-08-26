@@ -15,5 +15,8 @@ alias ls='ls --color=auto'
 [[ -e "$HOME/bash_exports" ]] && source "$HOME/bash_exports"
 [[ -e "$HOME/bash_fixes" ]] && source "$HOME/bash_fixes"
 
+echo
 # Print the Linux Name
 uname -a
+
+echo

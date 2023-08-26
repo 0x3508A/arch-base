@@ -67,6 +67,7 @@ systemctl enable acpid
 systemctl enable paccache.timer
 
 if [ "$NEED" == "true" ]; then
+
 useradd -m user
 echo user:password | chpasswd
 usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
@@ -74,6 +75,7 @@ usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
 
 echo "user ALL=(ALL) ALL" >> /etc/sudoers.d/user
 chmod 440 /etc/sudoers.d/user
+
 fi
 
 printf "\e[1;32mDone! Type exit, umount -R /mnt and reboot.\e[0m\n"
