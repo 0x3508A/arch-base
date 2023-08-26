@@ -1,0 +1,21 @@
+#
+##
+## Boseji's USB Rules Files for Oryx tool for Moonlander
+##
+## SPDX-License-Identifier: GPL-2.0-only
+##
+## Copyright (C) 2020 Abhijit Bose <boseji@users.noreply.github.com>
+##
+# Copy this file to /etc/udev/rules.d/
+# If rules fail to reload automatically, you can refresh udev rules
+# with the command "udevadm control --reload"
+
+# Rule for all ZSA keyboards
+SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="uucp"
+# Rule for the Moonlander
+SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="uucp"
+# Rule for the Ergodox EZ
+SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="uucp"
+# Rule for the Planck EZ
+SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="uucp"
+

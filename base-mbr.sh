@@ -2,7 +2,10 @@
 
 # Add Colors
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-cp -arT "$SCRIPT_DIR/etc" /etc
+
+echo "Copying $SCRIPT_DIR/etc to actual /etc"
+echo
+cp -rT "$SCRIPT_DIR/etc" /etc/
 
 echo "Press Enter to Continue...."
 read -r
