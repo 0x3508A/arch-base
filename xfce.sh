@@ -88,7 +88,6 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	hunspell-en_US languagetool libmythes \
 	ttf-liberation ttf-bitstream-vera adobe-source-sans-pro-fonts \
 	ttf-droid ttf-dejavu ttf-ubuntu-font-family ttf-anonymous-pro \
-	jre8-openjdk \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
 	unicode-emoji unrar p7zip unzip f3d flac jasper choose
