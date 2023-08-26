@@ -15,8 +15,8 @@ echo
 cp -rT "$SCRIPT_DIR/etc" /etc/
 
 # Speed up pacman and Add Colors
-sed -i "/Color/s/^#//g" /etc/pacman.conf
-sed -i "/ParallelDownloads/s/^#//g" /etc/pacman.conf
+#sed -i "/Color/s/^#//g" /etc/pacman.conf
+#sed -i "/ParallelDownloads/s/^#//g" /etc/pacman.conf
 
 # Begin Common Block
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
@@ -36,6 +36,8 @@ echo root:password | chpasswd
 
 fi
 
+pacman-key --init
+pacman-key --populate archlinux
 # Packages in Stages
 pacman -S grub mtools dosfstools os-prober \
 	nano nano-syntax-highlighting \
