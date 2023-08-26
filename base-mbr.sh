@@ -3,6 +3,16 @@
 # Add Colors
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+# Install few Pre-needed dependencies
+sudo pacman -S --noconfirm bash-completion sed
+
+NEED='false'
+if [ ! -e /etc/hostname ]; then
+NEED='true'
+fi
+
+if [ "$NEED" == "true" ]; then
+
 echo "Copying $SCRIPT_DIR/etc to actual /etc"
 echo
 cp -rT "$SCRIPT_DIR/etc" /etc/
@@ -33,6 +43,8 @@ echo "${HOSTNAME}" >> /etc/hostname
 }>> /etc/hosts
 echo root:password | chpasswd
 
+fi
+
 # Packages in Stages
 pacman -S grub mtools dosfstools os-prober \
 	nano nano-syntax-highlighting \
@@ -60,6 +72,7 @@ systemctl enable tlp # You can comment this command out if you didn't install tl
 systemctl enable acpid
 sudo systemctl enable paccache.timer
 
+if [ "$NEED" == "true" ]; then
 useradd -m user
 echo user:password | chpasswd
 usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
@@ -67,5 +80,6 @@ usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
 
 echo "user ALL=(ALL) ALL" >> /etc/sudoers.d/user
 chmod 440 /etc/sudoers.d/user
+fi
 
 printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m\n"
