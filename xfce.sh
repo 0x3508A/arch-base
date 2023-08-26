@@ -91,7 +91,7 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	jre8-openjdk \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
-	unicode-emoji unrar p7zip unzip f3d flac jasper 
+	unicode-emoji unrar p7zip unzip f3d flac jasper choose
 
 echo
 echo "Begin Hardware Tools Install - Press Enter to continue..."
