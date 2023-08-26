@@ -14,11 +14,16 @@
 # If not running interactively, don't do anything!
 [[ $- != *i* ]] && return
 
+xhost +local:root > /dev/null 2>&1
+
 # Bash won't get SIGWINCH if another process is in the foreground.
 # Enable checkwinsize so that bash will check the terminal size when
 # it regains control.
 # http://cnswww.cns.cwru.edu/~chet/bash/FAQ (E11)
 shopt -s checkwinsize
+
+# Expand even Aliases
+shopt -s expand_aliases
 
 # Enable history appending instead of overwriting.
 shopt -s histappend
