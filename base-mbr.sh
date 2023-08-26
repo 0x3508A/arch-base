@@ -48,7 +48,6 @@ pacman -S grub mtools dosfstools os-prober \
 	base-devel linux-headers ntfs-3g exfatprogs \
 	acpi acpid acpi_call tlp hddtemp smartmontools \
 	inxi terminus-font bash-completion \
-	flatpak udisks2 udiskie \
 	pacman-contrib
 
 # Install Grub to Disk

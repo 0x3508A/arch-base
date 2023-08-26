@@ -53,7 +53,7 @@ sudo pacman -S xorg lxdm xfce4 xfce4-goodies \
 	evince gnome-keyring seahorse arch-audit paperkey blueman \
 	sof-firmware alsa-utils  wireplumber \
 	pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-	xdg-user-dirs xdg-utils \
+	xdg-user-dirs xdg-utils flatpak udisks2 udiskie \
 	gvfs gvfs-smb gvfs-afc gvfs-mtp gvfs-nfs gvfs-google gvfs-gphoto2 \
 	webp-pixbuf-loader ffmpegthumbnailer	
 
