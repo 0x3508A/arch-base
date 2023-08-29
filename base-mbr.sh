@@ -52,6 +52,12 @@ pacman -S grub mtools dosfstools os-prober \
 	inxi terminus-font bash-completion \
 	pacman-contrib
 
+# Enable os-prober to detect Windows and other OS
+sed -i "/GRUB_DIABLE_OS_PROBER/s/^#//g" /etc/default/grub
+# Enable Save default/grub
+sed -i "/GRUB_SAVEDEFAULT/s/^#//g" /etc/default/grub
+# Hide Grub Menu - This can be enabled by pressing ESC at boot
+sed -i "/GRUB_TIMEOUT_STYLE/s/menu/hidden/g" /etc/default/grub
 # Install Grub to Disk
 grub-install --target=i386-pc /dev/sdX # replace sdx with your disk name, not the partition
 grub-mkconfig -o /boot/grub/grub.cfg
