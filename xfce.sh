@@ -8,6 +8,7 @@ read -r
 echo
 sudo timedatectl set-ntp true
 sudo hwclock --systohc
+sudo systemnctl enable --now systemctl-timesyncd
 echo
 timedatectl status
 fi
