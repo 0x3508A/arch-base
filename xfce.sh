@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
+ntpstat="$(timedatectl|grep 'NTP service'|cut -d: -f2|cut -d' ' -f2)"
+if [ "$ntpstat" == "inactive" ];then
 echo
-sudo timedatectl set-ntp true
-sudo timedatectl set-local-rtc 1
-sudo hwclock --systohc
-timedatectl status
-
-echo "Press Enter to continue"
+echo "Configuring NTP - Press Enter to continue..."
 read -r
 echo
+sudo timedatectl set-ntp true
+sudo hwclock --systohc
+echo
+timedatectl status
+fi
 
+if [ "$(sudo ufw status|cut -d' ' -f2)" == "inactive" ]; then
 echo
 echo "Enabling Firewall - Press Enter to continue..."
 read -r
@@ -18,17 +21,20 @@ echo
 sudo ufw enable
 sudo ufw limit 22
 sudo systemctl enable --now ufw
+fi
 
+if [ "$(which yay&&echo "found"|grep found)" != "found" ]; then
 echo
 echo "Installing yay - Press Enter to continue..."
 read -r
 echo
 
 git clone https://aur.archlinux.org/yay.git
-cd yay/
+pushd yay || exit 1
 makepkg -si --noconfirm
-cd ..
+popd || exit 2
 rm -rf yay/
+fi
 
 echo
 echo "Special For pipewire -"
@@ -105,13 +111,40 @@ sudo pacman -S openocd avr-binutils avr-gcc avr-libc avrdude arduino \
 	arm-none-eabi-newlib
 
 echo
-echo "Begin Install AUR Packages - Press Enter to continue..."
+echo "Fix the save-session problem of xfce"
+echo "- Press Enter to continue..."
+read -r
+echo
+
+xfconf-query -c xfce4-session -p /general/SaveOnExit -n -t bool -s false
+{
+	echo "[xfce4-session]";
+	echo "SaveSession=NONE";
+} >> /etc/xdg/xfce4/kiosk/kioskrc
+# Disable Terminal F1 and F11 shortcuts
+{
+	echo '(gtk_accel_path "<Actions>/terminal-window/fullscreen" "")';
+	echo '(gtk_accel_path "<Actions>/terminal-window/contents" "")';
+} >> ~/.config/xfce4/terminal/accels.scm
+# Fix Start menu Actions
+cp /etc/X11/xinit/xinitrc ~/.xinitrc
+echo "xcape -e 'Super_L=Alt_L|F1'" >> ~/.xinitrc
+echo
+
+echo
+echo "Begin Install AUR Packages: zram - Press Enter to continue..."
 read -r
 echo
 
 yay -S --noconfirm zramd
+echo
 sudo systemctl enable zramd
 
+echo
+
+echo
+echo "Begin Install AUR Packages: others - Press Enter to continue..."
+read -r
 echo
 
 yay -S --noconfirm gforth simplescreenrecorder caffeine-ng \
