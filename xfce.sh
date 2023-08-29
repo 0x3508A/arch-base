@@ -23,7 +23,8 @@ sudo ufw limit 22
 sudo systemctl enable --now ufw
 fi
 
-if [ "$(which yay&&echo "found"|grep found)" != "found" ]; then
+echo
+if [ "$(which yay)" != "/usr/bin/yay" ]; then
 echo
 echo "Installing yay - Press Enter to continue..."
 read -r
@@ -89,7 +90,7 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	tk upx flameshot screenkey ffmpeg unicode-emoji \
 	yt-dlp wget telegram-desktop signal-desktop \
 	jq gping curlie xh nmap remmina httrack vim-airline vim-spell-en \
-	kdiff3 filezilla libreoffice-still pdftricks cherrytree \
+	kdiff3 filezilla pdftricks cherrytree \
 	imagemagick aspell aspell-en hyphen hyphen-en mythes-en \
 	hunspell-en_US languagetool libmythes \
 	ttf-liberation ttf-bitstream-vera adobe-source-sans-pro-fonts \
@@ -98,17 +99,22 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
 	unicode-emoji unrar p7zip unzip f3d flac jasper choose
 
+# INSTALLING LibreOffice
+sudo pacman -S libreoffice-still
+
 echo
 echo "Begin Hardware Tools Install - Press Enter to continue..."
 read -r
 echo
 
 sudo pacman -S openocd avr-binutils avr-gcc avr-libc avrdude arduino \
-	kicad kicad-library kicad-library-3d \
-	moserial lrzsz stlink picocom android-tools android-udev \
+	kicad moserial lrzsz stlink picocom android-tools android-udev \
 	sdcc pulseview \
 	arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
 	arm-none-eabi-newlib
+
+# Enable this for Full Kicad experience
+# sudo pacman -S kicad-library kicad-library-3d
 
 echo
 echo "Fix the save-session problem of xfce"
@@ -117,18 +123,25 @@ read -r
 echo
 
 xfconf-query -c xfce4-session -p /general/SaveOnExit -n -t bool -s false
+sudo mkdir -p /etc/xdg/xfce4/kiosk
 {
 	echo "[xfce4-session]";
 	echo "SaveSession=NONE";
-} >> /etc/xdg/xfce4/kiosk/kioskrc
+} | sudo tee /etc/xdg/xfce4/kiosk/kioskrc
+echo
+
 # Disable Terminal F1 and F11 shortcuts
+mkdir -p ~/.config/xfce4/terminal
 {
 	echo '(gtk_accel_path "<Actions>/terminal-window/fullscreen" "")';
 	echo '(gtk_accel_path "<Actions>/terminal-window/contents" "")';
-} >> ~/.config/xfce4/terminal/accels.scm
+} > ~/.config/xfce4/terminal/accels.scm
+echo
+
 # Fix Start menu Actions
 cp /etc/X11/xinit/xinitrc ~/.xinitrc
-echo "xcape -e 'Super_L=Alt_L|F1'" >> ~/.xinitrc
+sudo mkdir -p /etc/X11/xinit/xinitrc.d
+echo "xcape -e 'Super_L=Alt_L|F1'" | sudo tee /etc/X11/xinit/xinitrc.d/fix-super.sh
 echo
 
 echo
@@ -147,8 +160,11 @@ echo "Begin Install AUR Packages: others - Press Enter to continue..."
 read -r
 echo
 
-yay -S --noconfirm gforth simplescreenrecorder caffeine-ng \
-	thonny nodemcu-pyflasher brave-bin
+yay -S --noconfirm caffeine-ng
+
+# More Packages
+# yay -S --noconfirm gforth simplescreenrecorder \
+#	thonny nodemcu-pyflasher brave-bin
 
 echo
 echo "Installation Done - Press Enter to Reboot..."
