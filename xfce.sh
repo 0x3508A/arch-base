@@ -53,7 +53,7 @@ sudo pacman -S --noconfirm xf86-video-intel
 # sudo pacman -S --noconfirm xf86-video-amdgpu
 # sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
 
-sudo pacman -S xorg lxdm xfce4 xfce4-goodies \
+sudo pacman -S xorg xcape lxdm xfce4 xfce4-goodies \
 	gedit gedit-plugins rhythmbox firefox pavucontrol \
 	arc-gtk-theme arc-icon-theme obs-studio vlc mpv viewnior \
 	veracrypt keepassxc gparted bleachbit gnome-disk-utility \
@@ -92,7 +92,7 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	jq gping curlie xh nmap remmina httrack vim-airline vim-spell-en \
 	kdiff3 filezilla pdftricks cherrytree \
 	imagemagick aspell aspell-en hyphen hyphen-en mythes-en \
-	hunspell-en_US languagetool libmythes \
+	hunspell-en_US libmythes \
 	ttf-liberation ttf-bitstream-vera adobe-source-sans-pro-fonts \
 	ttf-droid ttf-dejavu ttf-ubuntu-font-family ttf-anonymous-pro \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
@@ -139,9 +139,25 @@ mkdir -p ~/.config/xfce4/terminal
 echo
 
 # Fix Start menu Actions
-cp /etc/X11/xinit/xinitrc ~/.xinitrc
-sudo mkdir -p /etc/X11/xinit/xinitrc.d
-echo "xcape -e 'Super_L=Alt_L|F1'" | sudo tee /etc/X11/xinit/xinitrc.d/fix-super.sh
+mkdir -p ~/.config/autostart
+cat <<STFXEOF > ~/.config/autostart/Start-Menu-Fix.desktop
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=Star Menu Fix
+Comment=
+Exec=xcape -e 'Super_L=Alt_L|F1'
+OnlyShowIn=XFCE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=false
+STFXEOF
+sed -i 's/xfce4-popup-applicationsmenu/xfce4-popup-whiskermenu/' \
+	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+sed -i 's/applicationsmenu/whiskermenu/' \
+	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 echo
 
 echo
@@ -155,12 +171,12 @@ sudo systemctl enable zramd
 
 echo
 
-echo
-echo "Begin Install AUR Packages: others - Press Enter to continue..."
-read -r
-echo
+# echo
+# echo "Begin Install AUR Packages: others - Press Enter to continue..."
+# read -r
+# echo
 
-yay -S --noconfirm caffeine-ng
+#yay -S --noconfirm caffeine-ng
 
 # More Packages
 # yay -S --noconfirm gforth simplescreenrecorder \
