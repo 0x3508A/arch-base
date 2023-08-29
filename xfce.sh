@@ -82,7 +82,7 @@ echo
 sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	restic tree tmux print-manager system-config-printer \
 	patch yubikey-personalization-gui grsync ifuse speedcrunch \
-	usbview zbar catfish htop usbutils neofetch \
+	usbview zbar catfish htop usbutils neofetch beep \
 	vim-airline vim-spell-en binutils emacs exa bat gitg stow \
 	screen meld ctags make cmake diffutils entr shellcheck \
 	sqlitebrowser xclip go python-pyserial python-pygments \
@@ -95,6 +95,7 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	hunspell-en_US libmythes \
 	ttf-liberation ttf-bitstream-vera adobe-source-sans-pro-fonts \
 	ttf-droid ttf-dejavu ttf-ubuntu-font-family ttf-anonymous-pro \
+	noto-fonts-emoji ttf-joypixels ttf-indic-otf  noto-fonts \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
 	unicode-emoji unrar p7zip unzip f3d flac jasper choose
@@ -171,15 +172,15 @@ sudo systemctl enable zramd
 
 echo
 
-# echo
-# echo "Begin Install AUR Packages: others - Press Enter to continue..."
-# read -r
-# echo
+echo
+echo "Begin Install AUR Packages: others - Press Enter to continue..."
+read -r
+echo
 
-#yay -S --noconfirm caffeine-ng
+yay -S --noconfirm ttf-devanagarifonts
 
 # More Packages
-# yay -S --noconfirm gforth simplescreenrecorder \
+# yay -S --noconfirm gforth simplescreenrecorder caffeine-ng \
 #	thonny nodemcu-pyflasher brave-bin
 
 echo
