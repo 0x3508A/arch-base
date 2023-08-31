@@ -47,9 +47,6 @@ echo "Begin installing XFCE - Press Enter to continue..."
 read -r
 echo
 
-# pikaur -S --noconfirm auto-cpufreq
-# sudo systemctl enable --now auto-cpufreq
-
 sudo pacman -S --noconfirm xf86-video-intel
 # sudo pacman -S --noconfirm xf86-video-amdgpu
 # sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
@@ -100,6 +97,11 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
 	unicode-emoji unrar p7zip unzip f3d flac jasper choose
+
+echo
+echo "Begin Office Install - Press Enter to continue..."
+read -r
+echo
 
 # INSTALLING LibreOffice
 sudo pacman -S libreoffice-still
@@ -156,10 +158,10 @@ StartupNotify=false
 Terminal=false
 Hidden=false
 STFXEOF
-sed -i 's/xfce4-popup-applicationsmenu/xfce4-popup-whiskermenu/' \
-	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-sed -i 's/applicationsmenu/whiskermenu/' \
-	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+#sed -i 's/xfce4-popup-applicationsmenu/xfce4-popup-whiskermenu/' \
+#	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+#sed -i 's/applicationsmenu/whiskermenu/' \
+#	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 echo
 
 echo
@@ -173,16 +175,19 @@ sudo systemctl enable zramd
 
 echo
 
-echo
-echo "Begin Install AUR Packages: others - Press Enter to continue..."
-read -r
-echo
+# echo
+# echo "Begin Install AUR Packages: others - Press Enter to continue..."
+# read -r
+# echo
 
-yay -S --noconfirm ttf-devanagarifonts
+# yay -S --noconfirm ttf-devanagarifonts
 
-# More Packages
+# # More Packages
 # yay -S --noconfirm gforth simplescreenrecorder caffeine-ng \
 #	thonny nodemcu-pyflasher brave-bin
+
+# yay -S --noconfirm auto-cpufreq
+# sudo systemctl enable --now auto-cpufreq
 
 echo
 echo "Installation Done - Press Enter to Reboot..."
