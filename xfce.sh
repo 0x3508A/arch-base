@@ -9,7 +9,7 @@ echo " -- Configuring NTP"
 echo
 sudo timedatectl set-ntp true
 sudo hwclock --systohc
-sudo systemctl enable --now systemd-timesyncd && \
+sudo systemctl enable --now systemd-timesyncd
 touch /tmp/timedate.done
 echo
 timedatectl status
@@ -26,7 +26,7 @@ echo
 
 sudo ufw enable && \
 sudo ufw limit 22 && \
-sudo systemctl enable --now ufw && \
+sudo systemctl enable --now ufw
 touch /tmp/ufw.done
 echo
 echo "   !! Done"
@@ -44,7 +44,7 @@ git clone https://aur.archlinux.org/yay.git
 pushd yay || exit 1
 makepkg -si --noconfirm
 popd || exit 2
-rm -rf yay/ && \
+rm -rf yay/
 touch /tmp/yay.done
 echo
 echo "   !! Done"
@@ -74,7 +74,7 @@ sudo pacman -S --noconfirm xorg xcape lxdm xfce4 xfce4-goodies \
 	gvfs gvfs-smb gvfs-afc gvfs-mtp gvfs-nfs gvfs-google gvfs-gphoto2 \
 	webp-pixbuf-loader ffmpegthumbnailer	
 
-sudo systemctl enable lxdm && \
+sudo systemctl enable lxdm
 touch /tmp/xfce.done
 echo
 echo "   !! Done"
@@ -86,8 +86,8 @@ if [ ! -e /tmp/userdir.done ]; then
 echo
 echo " -- Update User directories"
 echo
-sudo xdg-user-dirs-update && \
-xdg-user-dirs-update && \
+sudo xdg-user-dirs-update
+xdg-user-dirs-update
 touch /tmp/userdir.done
 echo
 echo "   !! Done"
@@ -99,8 +99,8 @@ if [ ! -e /tmp/fixwireless.done ]; then
 echo
 echo " -- Fix and Unlock control of Wireless"
 echo
-sudo rfkill unblock wlan && \
-sudo rfkill unblock bluetooth && \
+sudo rfkill unblock wlan
+sudo rfkill unblock bluetooth
 touch /tmp/fixwireless.done
 echo
 echo "   !! Done"
@@ -108,7 +108,7 @@ echo
 sleep 2
 fi
 
-if [ ! -e /tmp/apps.done ]; then
+if [ ! -e /tmp/installapps.done ]; then
 echo
 echo " -- Applications Install"
 echo
@@ -133,22 +133,22 @@ sudo pacman -S --noconfirm \
 	noto-fonts-emoji ttf-joypixels ttf-indic-otf  noto-fonts \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
-	unicode-emoji unrar p7zip unzip f3d flac jasper choose && \
-touch /tmp/apps.done
+	unicode-emoji unrar p7zip unzip f3d flac jasper choose
+touch /tmp/installapps.done
 echo
 echo "   !! Done"
 echo
 sleep 5
 fi
 
-if [ ! -e /tmp/office.done ]; then
+if [ ! -e /tmp/installoffice.done ]; then
 echo
 echo " -- Office Install"
 echo
 
 # INSTALLING LibreOffice
-sudo pacman -S --noconfirm libreoffice-still && \
-touch /tmp/office.done
+sudo pacman -S --noconfirm libreoffice-still
+touch /tmp/installoffice.done
 echo
 echo "   !! Done"
 echo
@@ -234,7 +234,7 @@ echo
 
 yay -S --noconfirm zramd
 echo
-sudo systemctl enable zramd && \
+sudo systemctl enable zramd
 touch /tmp/zramd.done
 echo
 echo "   !! Done"
@@ -260,6 +260,7 @@ fi
 echo
 echo " -- Installation Done"
 echo
+rm -rf /tmp/*.done
 sleep 2
 
 /bin/echo -e "\e[1;32mREBOOTING IN 5..4..3..2..1..\e[0m\n"
