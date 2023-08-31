@@ -96,4 +96,4 @@ chmod 440 /etc/sudoers.d/user
 
 fi
 
-printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m\n"
+printf "\e[1;32mDone! Type exit, umount -R /mnt and reboot.\e[0m\n"
