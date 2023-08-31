@@ -1,14 +1,30 @@
 #!/bin/bash
 
-# For Btrfs
-# pacman -S btrfs-progs
+# Script Vars
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
+NEED='false'
+if [ ! -e /etc/hostname ]; then
+NEED='true'
+fi
+
+if [ "$NEED" == "true" ]; then
+
+echo "Copying $SCRIPT_DIR/etc to actual /etc"
+echo
+cp -rT "$SCRIPT_DIR/etc" /etc/
+
+# # Speed up pacman and Add Colors
+# sed -i "/Color/s/^#//g" /etc/pacman.conf
+# sed -i "/ParallelDownloads/s/^#//g" /etc/pacman.conf
+
+# Begin Common Block
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+sed -i "/en_US.UTF-8/s/^#//g" /etc/locale.gen
 locale-gen
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=us" >> /etc/vconsole.conf
+# echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+# echo "KEYMAP=us" >> /etc/vconsole.conf
 export HOSTNAME='arch'
 echo "${HOSTNAME}" >> /etc/hostname
 {
@@ -18,39 +34,42 @@ echo "${HOSTNAME}" >> /etc/hostname
 }>> /etc/hosts
 echo root:password | chpasswd
 
-# Packages in Stages
+fi
 
+# Update Pacman
+pacman-key --init
+pacman-key --populate archlinux
+pacman -Syy
+
+
+
+# Packages in Stages
 pacman -S grub efibootmgr mtools dosfstools os-prober \
-	sof-firmware nano nano-syntax-highlighting \
+	nano nano-syntax-highlighting \
 	man-db man-pages texinfo \
 	networkmanager network-manager-applet dialog ufw \
 	openssh rsync reflector cups bluez bluez-utils avahi \
-	inetutils dnsutils nfs-utils nss-mdns\
+	inetutils dnsutils nfs-utils nss-mdns \
 	base-devel linux-headers ntfs-3g exfatprogs \
 	acpi acpid acpi_call tlp hddtemp smartmontools \
-	xdg-user-dirs xdg-utils gvfs gvfs-smb \
 	inxi terminus-font bash-completion \
-	alsa-utils pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-	flatpak
+	pacman-contrib
 
-# For Btrfs
-# pacman -S grub-btrfs
+# # For Btrfs
+# pacman -S --noconfirm btrfs-progs grub-btrfs
 
-# Packages for Virtual Machines
-# pacman -S --needed virt-manager qemu qemu-arch-extra edk2-ovmf \
-#	bridge-utils dnsmasq vde2 openbsd-netcat iptables-nft ipset
+# Enable os-prober to detect Windows and other OS
+sed -i "/GRUB_DIABLE_OS_PROBER/s/^#//g" /etc/default/grub
+# Enable Save default/grub
+sed -i "/GRUB_SAVEDEFAULT/s/^#//g" /etc/default/grub
+# Hide Grub Menu - This can be enabled by pressing ESC at boot
+#sed -i "/GRUB_TIMEOUT_STYLE/s/menu/hidden/g" /etc/default/grub
 
-# pacman -S --noconfirm xf86-video-intel
-# pacman -S --noconfirm xf86-video-amdgpu
-# pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
-
-# For Windows change the efi-directory to 
-# /boot/efi is you mounted the EFI partition at /boot/efi
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB 
-
-# For Windows change the /etc/default/grub file and uncomment the line
-# GRUB_DISABLE_OS_PROBER=false
-# Then generate the config again by the below command.
+# Normal Grub Install Command
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+# # For Windows change the efi-directory to 
+# # /boot/efi is you mounted the EFI partition at /boot/efi
+# grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB 
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable NetworkManager
@@ -59,18 +78,19 @@ systemctl enable cups.service
 systemctl enable sshd
 systemctl enable avahi-daemon
 systemctl enable tlp # You can comment this command out if you didn't install tlp, see above
-# systemctl enable reflector.timer # This is needed only if you want to update mirror list
 systemctl enable fstrim.timer # Enable if you have a SSD
-# systemctl enable libvirtd # Only if you need Virtual Machines
-# systemctl enable ufw
 systemctl enable acpid
+systemctl enable paccache.timer
+
+if [ "$NEED" == "true" ]; then
 
 useradd -m user
 echo user:password | chpasswd
 usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
-# usermod -aG libvirt user # Only if you need Virtual Machines
 
 echo "user ALL=(ALL) ALL" >> /etc/sudoers.d/user
 chmod 440 /etc/sudoers.d/user
+
+fi
 
 printf "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"

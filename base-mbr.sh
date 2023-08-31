@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Add Colors
+# Script Vars
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 NEED='false'
@@ -14,17 +14,17 @@ echo "Copying $SCRIPT_DIR/etc to actual /etc"
 echo
 cp -rT "$SCRIPT_DIR/etc" /etc/
 
-# Speed up pacman and Add Colors
-#sed -i "/Color/s/^#//g" /etc/pacman.conf
-#sed -i "/ParallelDownloads/s/^#//g" /etc/pacman.conf
+# # Speed up pacman and Add Colors
+# sed -i "/Color/s/^#//g" /etc/pacman.conf
+# sed -i "/ParallelDownloads/s/^#//g" /etc/pacman.conf
 
 # Begin Common Block
 ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 hwclock --systohc
 sed -i "/en_US.UTF-8/s/^#//g" /etc/locale.gen
 locale-gen
-#echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-#echo "KEYMAP=us" >> /etc/vconsole.conf
+# echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+# echo "KEYMAP=us" >> /etc/vconsole.conf
 export HOSTNAME='arch'
 echo "${HOSTNAME}" >> /etc/hostname
 {
@@ -46,7 +46,7 @@ pacman -S grub mtools dosfstools os-prober \
 	man-db man-pages texinfo \
 	networkmanager network-manager-applet dialog ufw \
 	openssh rsync reflector cups bluez bluez-utils avahi \
-	inetutils dnsutils nfs-utils nss-mdns\
+	inetutils dnsutils nfs-utils nss-mdns \
 	base-devel linux-headers ntfs-3g exfatprogs \
 	acpi acpid acpi_call tlp hddtemp smartmontools \
 	inxi terminus-font bash-completion \
@@ -77,7 +77,6 @@ if [ "$NEED" == "true" ]; then
 useradd -m user
 echo user:password | chpasswd
 usermod -aG wheel,audio,power,rfkill,video,storage,uucp,lock,lp user
-# usermod -aG libvirt user # Only if you need Virtual Machines
 
 echo "user ALL=(ALL) ALL" >> /etc/sudoers.d/user
 chmod 440 /etc/sudoers.d/user
