@@ -3,32 +3,39 @@
 set -e
 set +x
 
-ntpstat="$(timedatectl|grep 'NTP service'|cut -d: -f2|cut -d' ' -f2)"
-if [ "$ntpstat" == "inactive" ];then
+if [ ! -e /tmp/timedate.done ];then
 echo
 echo " -- Configuring NTP"
 echo
 sudo timedatectl set-ntp true
 sudo hwclock --systohc
-sudo systemnctl enable --now systemctl-timesyncd
+sudo systemctl enable --now systemd-timesyncd && \
+touch /tmp/timedate.done
 echo
 timedatectl status
-sleep 10
+echo
+echo "   !! Done"
+echo
+sleep 5
 fi
 
-if [ "$(sudo ufw status|cut -d' ' -f2)" == "inactive" ]; then
+if [ ! -e /tmp/ufw.done ]; then
 echo
 echo " -- Enabling Firewall"
 echo
 
-sudo ufw enable
-sudo ufw limit 22
-sudo systemctl enable --now ufw
-sleep 10
+sudo ufw enable && \
+sudo ufw limit 22 && \
+sudo systemctl enable --now ufw && \
+touch /tmp/ufw.done
+echo
+echo "   !! Done"
+echo
+sleep 5
 fi
 
 echo
-if [ "$(which yay)" != "/usr/bin/yay" ]; then
+if [ ! -e /tmp/yay.done ]; then
 echo
 echo " -- Installing yay"
 echo
@@ -37,10 +44,15 @@ git clone https://aur.archlinux.org/yay.git
 pushd yay || exit 1
 makepkg -si --noconfirm
 popd || exit 2
-rm -rf yay/
-sleep 10
+rm -rf yay/ && \
+touch /tmp/yay.done
+echo
+echo "   !! Done"
+echo
+sleep 5
 fi
 
+if [ ! -e /tmp/xfce.done ]; then
 echo
 echo " -- installing XFCE"
 echo
@@ -62,23 +74,41 @@ sudo pacman -S --noconfirm xorg xcape lxdm xfce4 xfce4-goodies \
 	gvfs gvfs-smb gvfs-afc gvfs-mtp gvfs-nfs gvfs-google gvfs-gphoto2 \
 	webp-pixbuf-loader ffmpegthumbnailer	
 
-sudo systemctl enable lxdm
-sleep 10
+sudo systemctl enable lxdm && \
+touch /tmp/xfce.done
+echo
+echo "   !! Done"
+echo
+sleep 5
+fi
 
+if [ ! -e /tmp/userdir.done ]; then
 echo
 echo " -- Update User directories"
 echo
-sudo xdg-user-dirs-update
-xdg-user-dirs-update
-sleep 10
+sudo xdg-user-dirs-update && \
+xdg-user-dirs-update && \
+touch /tmp/userdir.done
+echo
+echo "   !! Done"
+echo
+sleep 2
+fi
 
+if [ ! -e /tmp/fixwireless.done ]; then
 echo
 echo " -- Fix and Unlock control of Wireless"
 echo
-sudo rfkill unblock wlan
-sudo rfkill unblock bluetooth
-sleep 10
+sudo rfkill unblock wlan && \
+sudo rfkill unblock bluetooth && \
+touch /tmp/fixwireless.done
+echo
+echo "   !! Done"
+echo
+sleep 2
+fi
 
+if [ ! -e /tmp/apps.done ]; then
 echo
 echo " -- Applications Install"
 echo
@@ -103,17 +133,29 @@ sudo pacman -S --noconfirm \
 	noto-fonts-emoji ttf-joypixels ttf-indic-otf  noto-fonts \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
-	unicode-emoji unrar p7zip unzip f3d flac jasper choose
-sleep 10
+	unicode-emoji unrar p7zip unzip f3d flac jasper choose && \
+touch /tmp/apps.done
+echo
+echo "   !! Done"
+echo
+sleep 5
+fi
 
+if [ ! -e /tmp/office.done ]; then
 echo
 echo " -- Office Install"
 echo
 
 # INSTALLING LibreOffice
-sudo pacman -S --noconfirm libreoffice-still
-sleep 10
+sudo pacman -S --noconfirm libreoffice-still && \
+touch /tmp/office.done
+echo
+echo "   !! Done"
+echo
+sleep 5
+fi
 
+if [ ! -e /tmp/hwtools.done ]; then
 echo
 echo " -- Hardware Tools Install"
 echo
@@ -127,10 +169,14 @@ sudo pacman -S --noconfirm \
 
 # Enable this for Full Kicad experience
 # sudo pacman -S kicad-library kicad-library-3d
+touch /tmp/hwtools.done
+echo
+echo "   !! Done"
+echo
+sleep 5
+fi
 
-sleep 10
-
-if [ ! -e "~/.config/autostart/Start-Menu-Fix.desktop" ];
+if [ ! -e /tmp/fix-xfce.done ]; then
 echo
 echo " -- Fix the save-session problem of xfce"
 echo
@@ -167,23 +213,35 @@ StartupNotify=false
 Terminal=false
 Hidden=false
 STFXEOF
+
 #sed -i 's/xfce4-popup-applicationsmenu/xfce4-popup-whiskermenu/' \
 #	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
 #sed -i 's/applicationsmenu/whiskermenu/' \
 #	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+
 echo
-sleep 10
+touch /tmp/fix-xfce.done
+echo
+echo "   !! Done"
+echo
+sleep 5
 fi
 
+if [ ! -e /tmp/zramd.done ]; then
 echo
 echo " -- Install AUR Packages: zram"
 echo
 
 yay -S --noconfirm zramd
 echo
-sudo systemctl enable zramd
-sleep 10
+sudo systemctl enable zramd && \
+touch /tmp/zramd.done
 echo
+echo "   !! Done"
+echo
+sleep 5
+echo
+fi
 
 # echo
 # echo "Begin Install AUR Packages: others - Press Enter to continue..."
@@ -200,9 +258,9 @@ echo
 # sudo systemctl enable --now auto-cpufreq
 
 echo
-echo "Installation Done - Press Enter to Reboot..."
-read -r
+echo " -- Installation Done"
 echo
+sleep 2
 
 /bin/echo -e "\e[1;32mREBOOTING IN 5..4..3..2..1..\e[0m\n"
 sleep 5

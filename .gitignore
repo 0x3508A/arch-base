@@ -8,13 +8,7 @@ env.bak/
 venv.bak/
 
 # Others
-*.bz2
-*.size
-*.sha256
-*.sha512
-*.json.txt
-bootloaders/*/build/
+*.done
 build/
 artifact*/
-template.txt
-jugaad_samd_ard*/
+
