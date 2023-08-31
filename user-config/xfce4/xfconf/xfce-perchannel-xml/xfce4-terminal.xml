@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<channel name="xfce4-terminal" version="1.0">
+  <property name="misc-cursor-shape" type="string" value="TERMINAL_CURSOR_SHAPE_UNDERLINE"/>
+  <property name="misc-cursor-blinks" type="bool" value="true"/>
+  <property name="misc-copy-on-select" type="bool" value="true"/>
+  <property name="font-name" type="string" value="Source Code Pro Medium 14"/>
+  <property name="misc-bell-urgent" type="bool" value="false"/>
+  <property name="misc-bell" type="bool" value="true"/>
+  <property name="misc-new-tab-adjacent" type="bool" value="true"/>
+</channel>

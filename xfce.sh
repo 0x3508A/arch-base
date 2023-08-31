@@ -182,42 +182,11 @@ echo " -- Fix the save-session problem of xfce"
 echo
 
 xfconf-query -c xfce4-session -p /general/SaveOnExit -n -t bool -s false
-sudo mkdir -p /etc/xdg/xfce4/kiosk
-{
-	echo "[xfce4-session]";
-	echo "SaveSession=NONE";
-} | sudo tee /etc/xdg/xfce4/kiosk/kioskrc
+
 echo
-
-# Disable Terminal F1 and F11 shortcuts
-mkdir -p ~/.config/xfce4/terminal
-{
-	echo '(gtk_accel_path "<Actions>/terminal-window/fullscreen" "")';
-	echo '(gtk_accel_path "<Actions>/terminal-window/contents" "")';
-} > ~/.config/xfce4/terminal/accels.scm
+echo " -- Copying XFCE Personalization files"
 echo
-
-# Fix Start menu Actions
-mkdir -p ~/.config/autostart
-cat <<STFXEOF > ~/.config/autostart/Start-Menu-Fix.desktop
-[Desktop Entry]
-Encoding=UTF-8
-Version=0.9.4
-Type=Application
-Name=Star Menu Fix
-Comment=
-Exec=xcape -e 'Super_L=Alt_L|F1'
-OnlyShowIn=XFCE;
-RunHook=0
-StartupNotify=false
-Terminal=false
-Hidden=false
-STFXEOF
-
-#sed -i 's/xfce4-popup-applicationsmenu/xfce4-popup-whiskermenu/' \
-#	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-#sed -i 's/applicationsmenu/whiskermenu/' \
-#	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
+cp -rT user-config ~/.config/
 
 echo
 touch /tmp/fix-xfce.done
