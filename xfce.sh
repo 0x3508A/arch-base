@@ -1,34 +1,36 @@
 #!/usr/bin/env bash
 
+set -e
+set +x
+
 ntpstat="$(timedatectl|grep 'NTP service'|cut -d: -f2|cut -d' ' -f2)"
 if [ "$ntpstat" == "inactive" ];then
 echo
-echo "Configuring NTP - Press Enter to continue..."
-read -r
+echo " -- Configuring NTP"
 echo
 sudo timedatectl set-ntp true
 sudo hwclock --systohc
 sudo systemnctl enable --now systemctl-timesyncd
 echo
 timedatectl status
+sleep 10
 fi
 
 if [ "$(sudo ufw status|cut -d' ' -f2)" == "inactive" ]; then
 echo
-echo "Enabling Firewall - Press Enter to continue..."
-read -r
+echo " -- Enabling Firewall"
 echo
 
 sudo ufw enable
 sudo ufw limit 22
 sudo systemctl enable --now ufw
+sleep 10
 fi
 
 echo
 if [ "$(which yay)" != "/usr/bin/yay" ]; then
 echo
-echo "Installing yay - Press Enter to continue..."
-read -r
+echo " -- Installing yay"
 echo
 
 git clone https://aur.archlinux.org/yay.git
@@ -36,48 +38,53 @@ pushd yay || exit 1
 makepkg -si --noconfirm
 popd || exit 2
 rm -rf yay/
+sleep 10
 fi
 
 echo
-echo "Special For pipewire -"
-echo "  - Choose 'pipipewire-jack'"
-echo "  - Choose 'wireplumber'"
-echo
-echo "Begin installing XFCE - Press Enter to continue..."
-read -r
+echo " -- installing XFCE"
 echo
 
 sudo pacman -S --noconfirm xf86-video-intel
 # sudo pacman -S --noconfirm xf86-video-amdgpu
 # sudo pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
 
-sudo pacman -S xorg xcape lxdm xfce4 xfce4-goodies \
+sudo pacman -S --noconfirm xorg xcape lxdm xfce4 xfce4-goodies \
+	gnu-free-fonts \
 	gedit gedit-plugins rhythmbox firefox pavucontrol \
 	arc-gtk-theme arc-icon-theme obs-studio vlc mpv viewnior \
 	veracrypt keepassxc gparted bleachbit gnome-disk-utility \
 	evince gnome-keyring seahorse arch-audit paperkey blueman \
-	sof-firmware alsa-utils  wireplumber \
 	pipewire pipewire-alsa pipewire-pulse pipewire-jack \
-	xdg-user-dirs xdg-utils flatpak udisks2 udiskie \
+	sof-firmware alsa-utils wireplumber \
+	xdg-user-dirs xdg-utils xdg-desktop-portal-gnome \
+	flatpak udisks2 udiskie \
 	gvfs gvfs-smb gvfs-afc gvfs-mtp gvfs-nfs gvfs-google gvfs-gphoto2 \
 	webp-pixbuf-loader ffmpegthumbnailer	
 
 sudo systemctl enable lxdm
+sleep 10
 
-# Update User directories
+echo
+echo " -- Update User directories"
+echo
 sudo xdg-user-dirs-update
 xdg-user-dirs-update
+sleep 10
 
-# Fix and Unlock control of Wireless
+echo
+echo " -- Fix and Unlock control of Wireless"
+echo
 sudo rfkill unblock wlan
 sudo rfkill unblock bluetooth
+sleep 10
 
 echo
-echo "Begin Applications Install - Press Enter to continue..."
-read -r
+echo " -- Applications Install"
 echo
 
-sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
+sudo pacman -S --noconfirm \
+	baobab cheese simple-scan pdfarranger img2pdf \
 	restic tree tmux print-manager system-config-printer \
 	patch yubikey-personalization-gui grsync ifuse speedcrunch \
 	usbview zbar catfish htop usbutils neofetch beep \
@@ -97,21 +104,22 @@ sudo pacman -S baobab cheese simple-scan pdfarranger img2pdf \
 	gimp inkscape audacity openscad freecad xchm vidcutter \
 	pandoc-cli texlive-bin texlive-core texlive-pictures \
 	unicode-emoji unrar p7zip unzip f3d flac jasper choose
+sleep 10
 
 echo
-echo "Begin Office Install - Press Enter to continue..."
-read -r
+echo " -- Office Install"
 echo
 
 # INSTALLING LibreOffice
-sudo pacman -S libreoffice-still
+sudo pacman -S --noconfirm libreoffice-still
+sleep 10
 
 echo
-echo "Begin Hardware Tools Install - Press Enter to continue..."
-read -r
+echo " -- Hardware Tools Install"
 echo
 
-sudo pacman -S openocd avr-binutils avr-gcc avr-libc avrdude arduino \
+sudo pacman -S --noconfirm \
+	openocd avr-binutils avr-gcc avr-libc avrdude arduino \
 	kicad moserial lrzsz stlink picocom android-tools android-udev \
 	sdcc pulseview \
 	arm-none-eabi-binutils arm-none-eabi-gcc arm-none-eabi-gdb \
@@ -120,10 +128,11 @@ sudo pacman -S openocd avr-binutils avr-gcc avr-libc avrdude arduino \
 # Enable this for Full Kicad experience
 # sudo pacman -S kicad-library kicad-library-3d
 
+sleep 10
+
+if [ ! -e "~/.config/autostart/Start-Menu-Fix.desktop" ];
 echo
-echo "Fix the save-session problem of xfce"
-echo "- Press Enter to continue..."
-read -r
+echo " -- Fix the save-session problem of xfce"
 echo
 
 xfconf-query -c xfce4-session -p /general/SaveOnExit -n -t bool -s false
@@ -163,16 +172,17 @@ STFXEOF
 #sed -i 's/applicationsmenu/whiskermenu/' \
 #	~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml
 echo
+sleep 10
+fi
 
 echo
-echo "Begin Install AUR Packages: zram - Press Enter to continue..."
-read -r
+echo " -- Install AUR Packages: zram"
 echo
 
 yay -S --noconfirm zramd
 echo
 sudo systemctl enable zramd
-
+sleep 10
 echo
 
 # echo

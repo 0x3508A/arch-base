@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
-sudo reflector --country Singapore,Japan,"South Korea","United States",Australia \
-	--protocol https --threads 4 --age 6 \
+sudo reflector --verbose \
+	--country "United States" \
+	--protocol https --age 6 --fastest 10 \
 	--sort rate --save /etc/pacman.d/mirrorlist
+echo
+echo
+cat /etc/pacman.d/mirrorlist | more
+echo
