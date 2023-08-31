@@ -2,6 +2,8 @@
 
 set -e
 set +x
+# Script Vars
+SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 if [ ! -e /tmp/timedate.done ];then
 echo
@@ -10,9 +12,13 @@ echo
 sudo timedatectl set-ntp true
 sudo hwclock --systohc
 sudo systemctl enable --now systemd-timesyncd
-touch /tmp/timedate.done
+sudo timedatectl show-timesync --all
 echo
 timedatectl status
+echo
+timedatectl timesync-status
+echo
+touch /tmp/timedate.done
 echo
 echo "   !! Done"
 echo
@@ -186,7 +192,7 @@ xfconf-query -c xfce4-session -p /general/SaveOnExit -n -t bool -s false
 echo
 echo " -- Copying XFCE Personalization files"
 echo
-cp -rT user-config ~/.config/
+cp -rT "${SCRIPT_DIR}/user-config" "${HOME}/.config/"
 
 echo
 touch /tmp/fix-xfce.done
