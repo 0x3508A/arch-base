@@ -235,7 +235,7 @@ fi
 echo
 echo " -- Installation Done"
 echo
-rm -rf /tmp/*.done
+sudo rm -rf /tmp/*.done
 sleep 2
 
 /bin/echo -e "\e[1;32mREBOOTING IN 5..4..3..2..1..\e[0m\n"
