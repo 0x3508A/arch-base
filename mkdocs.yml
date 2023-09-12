@@ -1,23 +1,42 @@
+# Project Information
 site_name: arch-base
 site_description: Arch Linux Install Scripts
 site_author: Abhijit Bose (0x3508a)
+copyright: >-
+  Copyright &copy; 1998 - 2023 
+  <a href="https://github.com/0x3508a" targe="_blank" rel="noopener">Abhijit Bose (0x3508a)</a>. 
+  All rights reserved.
+  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" targe="_blank" rel="noopener"><code style="background-color: indigo;color: white;">SPDX: CC-BY-NC-ND-4.0</code></a>
+repo_name: 0x3508a/public-notes
+repo_url: https://github.com/0x3508A/public-notes
+edit_uri: blob/master/docs/
 
+# Site Configuration
+docs_dir: docs
+use_directory_urls: true
+strict: true
+site_dir: public
+
+# Theme Configuration
 theme:
   name: material
-  font: false
   features:
-    - navigation.instant
     - navigation.tabs
-    - navigation.sections
-    - navigation.expand
     - navigation.top
-    - toc.integrate
-    - toc.follow
+    - navigation.instant
+    - navigation.indexes
     - search.suggest
     - search.highlight
-    - content.tabs.link
-    - content.code.annotation
+    - search.share
     - content.code.copy
+    - content.action.edit
+    - content.action.view
+    - toc.follow
+    # - navigation.sections
+    # - navigation.expand
+    # - toc.integrate
+    # - content.tabs.link
+    # - content.code.annotation
 
   palette:
     # Palette toggle for light mode
@@ -26,8 +45,8 @@ theme:
       primary: deep orange
       accent: lime
       toggle:
-        icon: material/brightness-4
-        name: Switch to dark mode
+        icon: material/flare
+        name: Dark mode
 
     # Palette toggle for dark mode (Default)
     - media: "(prefers-color-scheme: light)"
@@ -35,14 +54,19 @@ theme:
       primary: deep orange
       accent: light green
       toggle:
-        icon: material/brightness-7
-        name: Switch to light mode
+        icon: material/weather-night
+        name: Light mode
 
-copyright: >-
-  Copyright &copy; 1998 - 2023 
-  <a href="https://github.com/0x3508a" targe="_blank" rel="noopener">Abhijit Bose (0x3508a)</a>. 
-  All rights reserved.
-  <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" targe="_blank" rel="noopener"><code style="background-color: indigo;color: white;">SPDX: CC-BY-NC-ND-4.0</code></a>
+  font:
+    text: Open Sans
+    # code: Consolas
+
+  icon:
+    # logo: material/gamepad-variant
+    repo: fontawesome/brands/github
+    # edit: material/file-edit-outline
+    # view: material/file-eye-outline
+  # favicon: _site/favicon.ico
 
 extra:
   generator: false
@@ -56,18 +80,34 @@ extra:
       as to measure the effectiveness of our documentation and whether users
       find what they're searching for. With your consent, you're helping us to
       make our documentation better.
+  extra_css:
+    # - _site/mkdocs-extra.css
+  extra_javascript:
+
+plugins:
+  - search:
+      lang: en
+  - minify:
+      minify_html: true
 
 markdown_extensions:
   - pymdownx.highlight:
+      # auto_title: true
       anchor_linenums: true
-      use_pygments: true
       # linenums: true
+      use_pygments: true
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      check_paths: true
   - pymdownx.critic
   - pymdownx.caret
-  - pymdownx.keys
+  - pymdownx.keys:
+      separator: "+"
+      key_map:
+        click: "Click"
+        left-click: "Left Click"
+        right-click: "Right Click"
   - pymdownx.mark
   - pymdownx.tilde
   - pymdownx.smartsymbols
@@ -93,3 +133,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.escapeall:
+      hardbreak: false
+      nbsp: false
+  - toc:
+      permalink: true
