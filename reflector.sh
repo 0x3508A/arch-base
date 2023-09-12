@@ -3,8 +3,7 @@
 set -e
 set +x
 
-sudo reflector --verbose \
-	--country "United States" \
+sudo reflector --country "United States" \
 	--protocol https --age 6 --fastest 10 \
 	--sort rate --save /etc/pacman.d/mirrorlist
 echo
