@@ -2,6 +2,10 @@
 
 This is personal repository non-working Arch install scripts.
 
+## Artifacts
+
+- **[Fast Mirror list](./mirrorlist.txt)** - Useful for quick mirrorlist updates.
+
 ## References
 
 - Latest reference
