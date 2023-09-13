@@ -38,6 +38,8 @@ passwd root
 
 echo " -- Installing basic packages"
 echo
+pacman -Syy
+echo
 pacman -S grub efibootmgr dosfstools mtools os-prober \
 	networkmanager ufw dialog network-manager-applet \
 	openssh rsync reflector cups bluez bluez-utils \
